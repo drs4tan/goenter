@@ -60,7 +60,7 @@ func BeginStream(hubip string, authcode string, lightgroup string, clientcode st
 }
 
 // StreamLoop starts the event driven connection loop
-func StreamLoop(interval uint, connection *dtls.Conn, channel chan []LightPacket) {
+func StreamLoop(interval int, connection *dtls.Conn, channel chan []LightPacket) {
 	for {
 		status := <-channel
 		switch status[0].LightID {
@@ -68,7 +68,7 @@ func StreamLoop(interval uint, connection *dtls.Conn, channel chan []LightPacket
 			return
 		default:
 			connection.Write(createpacket(status))
-			time.Sleep(100 * time.Millisecond)
+			time.Sleep(time.Duration(interval) * time.Millisecond)
 		}
 
 	}
@@ -117,7 +117,6 @@ func createpacket(Lights []LightPacket) []byte {
 
 	for _, light := range Lights {
 		lightID := []byte{0x00, 0x00, light.LightID}
-		print(uint16(light.Red) << 8)
 		red := make([]byte, 2)
 		binary.BigEndian.PutUint16(red, uint16(light.Red) * 256 + uint16(light.Red))
 		green := make([]byte, 2)
