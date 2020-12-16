@@ -59,8 +59,8 @@ func BeginStream(hubip string, authcode string, lightgroup string, clientcode st
 
 }
 
-// streamloop starts the event driven connection loop
-func streamloop(interval uint, connection *dtls.Conn, channel chan []LightPacket) {
+// StreamLoop starts the event driven connection loop
+func StreamLoop(interval uint, connection *dtls.Conn, channel chan []LightPacket) {
 	for {
 		status := <-channel
 		switch status[0].LightID {
