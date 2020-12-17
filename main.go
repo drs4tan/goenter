@@ -49,7 +49,7 @@ func BeginStream(hubip string, authcode string, lightgroup string, clientcode st
 	}
 
 	// Connect to a DTLS server
-	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(),  10*time.Second)
 	dtlsConn, err := dtls.DialWithContext(ctx, "udp", addr, config)
 	util.Check(err)
 	fmt.Println("Connected to hue entertainment API!")
